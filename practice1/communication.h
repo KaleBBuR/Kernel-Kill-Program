@@ -1,0 +1,19 @@
+#pragma once
+
+#include "data.h"
+#include "terminate.h"
+
+#define TERMINATE_PROCESS_CODE 0x800
+#define GET_PROCESS_ID_CODE 0x801
+
+#define IO_TERMINATE_PROCESS CTL_CODE(FILE_DEVICE_UNKNOWN, TERMINATE_PROCESS_CODE, METHOD_BUFFERED, FILE_SPECIAL_ACCESS)
+#define IO_GET_PROCESS_ID CTL_CODE(FILE_DEVICE_UNKNOWN, GET_PROCESS_ID_CODE, METHOD_BUFFERED, FILE_SPECIAL_ACCESS)
+
+typedef struct {
+	ULONG ProcID;
+	UNICODE_STRING ProcName;
+} TerminateData, *PTerminateData;
+
+NTSTATUS CreateCall(_Inout_ PDEVICE_OBJECT pDeviceObject, _Inout_ PIRP Irp);
+NTSTATUS CloseCall(_Inout_ PDEVICE_OBJECT pDeviceObject, _Inout_ PIRP Irp);
+NTSTATUS IoControl(_Inout_ PDEVICE_OBJECT pDeviceObject, _Inout_ PIRP Irp);
